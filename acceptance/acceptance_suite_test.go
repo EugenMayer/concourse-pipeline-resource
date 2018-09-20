@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/concourse/concourse-pipeline-resource/fly"
-	"github.com/concourse/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gexec"
@@ -66,15 +66,15 @@ var _ = BeforeSuite(func() {
 	}
 
 	By("Compiling check binary")
-	checkPath, err = gexec.Build("github.com/concourse/concourse-pipeline-resource/cmd/check", "-race")
+	checkPath, err = gexec.Build("github.com/eugenmayer/concourse-pipeline-resource/cmd/check", "-race")
 	Expect(err).NotTo(HaveOccurred())
 
 	By("Compiling out binary")
-	outPath, err = gexec.Build("github.com/concourse/concourse-pipeline-resource/cmd/out", "-race")
+	outPath, err = gexec.Build("github.com/eugenmayer/concourse-pipeline-resource/cmd/out", "-race")
 	Expect(err).NotTo(HaveOccurred())
 
 	By("Compiling in binary")
-	inPath, err = gexec.Build("github.com/concourse/concourse-pipeline-resource/cmd/in", "-race")
+	inPath, err = gexec.Build("github.com/eugenmayer/concourse-pipeline-resource/cmd/in", "-race")
 	Expect(err).NotTo(HaveOccurred())
 
 	By("Copying fly to compilation location")

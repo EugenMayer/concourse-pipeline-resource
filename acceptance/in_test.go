@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/concourse/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"

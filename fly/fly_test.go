@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/concourse/concourse-pipeline-resource/fly"
-	"github.com/concourse/concourse-pipeline-resource/logger/loggerfakes"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger/loggerfakes"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -78,7 +78,7 @@ var _ = Describe("Command", func() {
 		})
 
 		It("returns output without error", func() {
-			output, err := flyCommand.Login(url, teamName, username, password, insecure)
+			output, err := flyCommand.Login(url, teamName, username, password, insecure, false)
 			Expect(err).NotTo(HaveOccurred())
 
 			expectedOutput := fmt.Sprintf(
@@ -102,7 +102,7 @@ var _ = Describe("Command", func() {
 			})
 
 			It("adds -k flag to command", func() {
-				output, err := flyCommand.Login(url, teamName, username, password, insecure)
+				output, err := flyCommand.Login(url, teamName, username, password, insecure, false)
 				Expect(err).NotTo(HaveOccurred())
 
 				expectedOutput := fmt.Sprintf(
@@ -128,7 +128,7 @@ var _ = Describe("Command", func() {
 			})
 
 			It("returns an error", func() {
-				_, err := flyCommand.Login(url, teamName, username, password, insecure)
+				_, err := flyCommand.Login(url, teamName, username, password, insecure, false)
 				Expect(err).To(HaveOccurred())
 			})
 		})
@@ -140,7 +140,7 @@ var _ = Describe("Command", func() {
 			})
 
 			It("does not pass the `p` or `u` flags to fly", func() {
-				output, err := flyCommand.Login(url, teamName, username, password, insecure)
+				output, err := flyCommand.Login(url, teamName, username, password, insecure, false)
 				Expect(err).NotTo(HaveOccurred())
 
 				expectedOutput := fmt.Sprintf(
@@ -163,7 +163,7 @@ var _ = Describe("Command", func() {
 			})
 
 			It("appends stderr to the error", func() {
-				_, err := flyCommand.Login(url, teamName, username, password, insecure)
+				_, err := flyCommand.Login(url, teamName, username, password, insecure, false)
 				Expect(err).To(HaveOccurred())
 
 				Expect(err.Error()).To(MatchRegexp(".*some err output.*"))

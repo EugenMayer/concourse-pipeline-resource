@@ -8,11 +8,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/concourse/concourse-pipeline-resource/concourse"
-	"github.com/concourse/concourse-pipeline-resource/fly"
-	"github.com/concourse/concourse-pipeline-resource/in"
-	"github.com/concourse/concourse-pipeline-resource/logger"
-	"github.com/concourse/concourse-pipeline-resource/validator"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/in"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/validator"
 	"github.com/robdimsdale/sanitizer"
 )
 

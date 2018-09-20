@@ -3,7 +3,7 @@ package validator
 import (
 	"fmt"
 
-	"github.com/concourse/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
 )
 
 func ValidateOut(input concourse.OutRequest) error {

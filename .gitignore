@@ -3,5 +3,6 @@
 /cmd/out/out
 
 fly-bin
-
+bin/fly
 main
+.idea/workspace.xml

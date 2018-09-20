@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/concourse/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

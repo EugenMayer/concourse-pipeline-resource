@@ -4,11 +4,11 @@ package flyfakes
 import (
 	"sync"
 
-	"github.com/concourse/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
 )
 
 type FakeCommand struct {
-	LoginStub        func(url string, teamName string, username string, password string, insecure bool) ([]byte, error)
+	LoginStub        func(url string, teamName string, username string, password string, insecure bool, oauth bool) ([]byte, error)
 	loginMutex       sync.RWMutex
 	loginArgsForCall []struct {
 		url      string
@@ -16,6 +16,7 @@ type FakeCommand struct {
 		username string
 		password string
 		insecure bool
+		oauth bool
 	}
 	loginReturns struct {
 		result1 []byte
@@ -94,7 +95,7 @@ type FakeCommand struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeCommand) Login(url string, teamName string, username string, password string, insecure bool) ([]byte, error) {
+func (fake *FakeCommand) Login(url string, teamName string, username string, password string, insecure bool, oauth bool) ([]byte, error) {
 	fake.loginMutex.Lock()
 	ret, specificReturn := fake.loginReturnsOnCall[len(fake.loginArgsForCall)]
 	fake.loginArgsForCall = append(fake.loginArgsForCall, struct {
@@ -103,11 +104,12 @@ func (fake *FakeCommand) Login(url string, teamName string, username string, pas
 		username string
 		password string
 		insecure bool
-	}{url, teamName, username, password, insecure})
+		oauth bool
+	}{url, teamName, username, password, insecure, oauth})
 	fake.recordInvocation("Login", []interface{}{url, teamName, username, password, insecure})
 	fake.loginMutex.Unlock()
 	if fake.LoginStub != nil {
-		return fake.LoginStub(url, teamName, username, password, insecure)
+		return fake.LoginStub(url, teamName, username, password, insecure, oauth)
 	}
 	if specificReturn {
 		return ret.result1, ret.result2

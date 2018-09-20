@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/concourse/concourse-pipeline-resource/concourse"
-	"github.com/concourse/concourse-pipeline-resource/fly"
-	"github.com/concourse/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
 )
 
 const (
@@ -61,6 +61,7 @@ func (c *Command) Run(input concourse.InRequest) (concourse.InResponse, error) {
 			team.Username,
 			team.Password,
 			insecure,
+			team.OAuth,
 		)
 		if err != nil {
 			return concourse.InResponse{}, err

@@ -12,7 +12,7 @@ mkdir -p $BUILD_DIR/assets
 cp -a fly/fly_linux_amd64 $BUILD_DIR/assets/fly
 chmod +x $BUILD_DIR/assets/fly
 
-cd $GOPATH/src/github.com/concourse/concourse-pipeline-resource
+cd $GOPATH/src/github.com/eugenmayer/concourse-pipeline-resource
 
 go install ./vendor/github.com/onsi/ginkgo/ginkgo
 

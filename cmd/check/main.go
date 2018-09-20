@@ -8,11 +8,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/concourse/concourse-pipeline-resource/check"
-	"github.com/concourse/concourse-pipeline-resource/concourse"
-	"github.com/concourse/concourse-pipeline-resource/fly"
-	"github.com/concourse/concourse-pipeline-resource/logger"
-	"github.com/concourse/concourse-pipeline-resource/validator"
+	"github.com/eugenmayer/concourse-pipeline-resource/check"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/validator"
 	"github.com/robdimsdale/sanitizer"
 )
 
@@ -37,7 +37,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	fmt.Fprintf(os.Stderr, "Running check")
 	fmt.Fprintf(os.Stderr, "Logging to %s\n", logFile.Name())
 
 	err = json.NewDecoder(os.Stdin).Decode(&input)

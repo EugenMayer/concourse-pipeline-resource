@@ -1,8 +1,8 @@
 package validator_test
 
 import (
-	"github.com/concourse/concourse-pipeline-resource/concourse"
-	"github.com/concourse/concourse-pipeline-resource/validator"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/validator"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )

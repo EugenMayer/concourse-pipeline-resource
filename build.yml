@@ -7,13 +7,13 @@ image_resource:
 
 inputs:
 - name: concourse-pipeline-resource
-  path: gopath/src/github.com/concourse/concourse-pipeline-resource
+  path: gopath/src/github.com/eugenmayer/concourse-pipeline-resource
 - name: fly
 
 outputs:
 - name: built-resource
 
 run:
-  path: gopath/src/github.com/concourse/concourse-pipeline-resource/scripts/ci
+  path: gopath/src/github.com/eugenmayer/concourse-pipeline-resource/scripts/ci
   args:
   - -skipPackage=acceptance

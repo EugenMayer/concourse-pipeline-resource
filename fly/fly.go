@@ -9,13 +9,17 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/concourse/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
+	"os"
+	"errors"
+	"strconv"
+	"strings"
 )
 
 //go:generate counterfeiter . Command
 
 type Command interface {
-	Login(url string, teamName string, username string, password string, insecure bool) ([]byte, error)
+	Login(url string, teamName string, username string, password string, insecure bool, oauth bool) ([]byte, error)
 	Pipelines() ([]string, error)
 	GetPipeline(pipelineName string) ([]byte, error)
 	SetPipeline(pipelineName string, configFilepath string, varsFilepaths []string) ([]byte, error)
@@ -43,6 +47,24 @@ func (f command) Login(
 	username string,
 	password string,
 	insecure bool,
+	oauth bool,
+) ([]byte, error) {
+	if oauth {
+		f.logger.Debugf("Using OAuth login")
+		return f.loginOAuth(url, teamName, username, password, insecure)
+	} else {
+		f.logger.Debugf("Using legacy login")
+		return f.loginLegacy(url, teamName, username, password, insecure, oauth)
+	}
+}
+
+func (f command) loginLegacy(
+	url string,
+	teamName string,
+	username string,
+	password string,
+	insecure bool,
+	oauth bool,
 ) ([]byte, error) {
 	args := []string{
 		"login",
@@ -74,6 +96,29 @@ func (f command) Login(
 	}
 
 	return append(loginOut, syncOut...), nil
+}
+
+func (f command) loginOAuth(
+	url string,
+	teamName string,
+	username string,
+	password string,
+	insecure bool,
+) ([]byte, error) {
+	cmd := exec.Command("/opt/resource/oauth_login", url, teamName, username, password, strconv.FormatBool(insecure), f.target)
+	cmd.Env = append(os.Environ(), "PATH=" + os.Getenv("PATH") + ":/opt/resource")
+	f.logger.Debugf("\nCalling oauth logging: %s\n", strings.Join(cmd.Args, " "))
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	loginError := cmd.Run()
+
+	if loginError != nil {
+		return nil, errors.New(loginError.Error() + "\n" + stdout.String() + "\n" + stderr.String())
+	}
+
+	return stdout.Bytes(), nil
 }
 
 func (f command) Pipelines() ([]string, error) {

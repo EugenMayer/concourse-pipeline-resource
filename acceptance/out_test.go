@@ -11,7 +11,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/concourse/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"
@@ -62,7 +62,7 @@ resources:
 - name: concourse-pipeline-resource-repo
   type: git
   source:
-    uri: https://github.com/concourse/concourse-pipeline-resource.git
+    uri: https://github.com/eugenmayer/concourse-pipeline-resource.git
     branch: {{foo}}
 jobs:
 - name: get-concourse-pipeline-resource-repo

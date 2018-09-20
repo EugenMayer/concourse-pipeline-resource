@@ -8,6 +8,7 @@ type Source struct {
 
 type Team struct {
 	Name     string `json:"name"`
+	OAuth      bool `json:"oauth"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }

@@ -4,7 +4,7 @@ package loggerfakes
 import (
 	"sync"
 
-	"github.com/concourse/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
 )
 
 type FakeLogger struct {

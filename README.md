@@ -7,6 +7,14 @@ Get and set concourse pipelines from concourse.
 Use this resource by adding the following to
 the `resource_types` section of a pipeline config:
 
+## Changes to the official resource
+
+ - added support for concourse 4.x logging (oAuth, LDAP ..)
+
+## Building your own
+
+    make build
+     
 ```yaml
 ---
 resource_types:
@@ -35,9 +43,11 @@ resources:
     - name: team-1
       username: some-user
       password: some-password
+      oauth: true
     - name: team-2
       username: other-user
       password: other-password
+      oauth: true
 ```
 
 * `target`: *Optional.* URL of your concourse instance e.g. `https://my-concourse.com`.
@@ -225,5 +235,5 @@ docker build -t concourse-pipeline-resource .
 
 ### Contributing
 
-Please [ensure the tests pass locally](https://github.com/concourse/concourse-pipeline-resource#running-the-tests).
+Please [ensure the tests pass locally](https://github.com/eugenmayer/concourse-pipeline-resource#running-the-tests).
 

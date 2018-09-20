@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/concourse/concourse-pipeline-resource/concourse"
-	"github.com/concourse/concourse-pipeline-resource/fly"
-	"github.com/concourse/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
 )
 
 type Command struct {
@@ -78,6 +78,7 @@ func (c *Command) Run(input concourse.CheckRequest) (concourse.CheckResponse, er
 			team.Username,
 			team.Password,
 			insecure,
+			team.OAuth,
 		)
 		if err != nil {
 			return concourse.CheckResponse{}, err

@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/concourse/concourse-pipeline-resource/concourse"
-	"github.com/concourse/concourse-pipeline-resource/fly"
-	"github.com/concourse/concourse-pipeline-resource/logger"
+	"github.com/eugenmayer/concourse-pipeline-resource/concourse"
+	"github.com/eugenmayer/concourse-pipeline-resource/fly"
+	"github.com/eugenmayer/concourse-pipeline-resource/logger"
 )
 
 const (
@@ -63,13 +63,8 @@ func (c *Command) Run(input concourse.OutRequest) (concourse.OutResponse, error)
 		}
 
 		c.logger.Debugf("Performing login\n")
-		_, err := c.flyCommand.Login(
-			input.Source.Target,
-			p.TeamName,
-			team.Username,
-			team.Password,
-			insecure,
-		)
+
+		_, err:= c.flyCommand.Login(input.Source.Target,p.TeamName,team.Username,team.Password, insecure, team.OAuth)
 		if err != nil {
 			return concourse.OutResponse{}, err
 		}
@@ -108,6 +103,7 @@ func (c *Command) Run(input concourse.OutRequest) (concourse.OutResponse, error)
 			team.Username,
 			team.Password,
 			insecure,
+			team.OAuth,
 		)
 		if err != nil {
 			return concourse.OutResponse{}, err
