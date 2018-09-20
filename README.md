@@ -10,6 +10,7 @@ the `resource_types` section of a pipeline config:
 ## Changes to the official resource
 
  - added support for concourse 4.x logging (oAuth, LDAP ..)
+ - Bundling fly for the respective Concourse version tagged with the image
 
 ## Building your own
 
@@ -21,7 +22,8 @@ resource_types:
 - name: concourse-pipeline
   type: docker-image
   source:
-    repository: concourse/concourse-pipeline-resource
+    repository: eugenmayer/concourse-pipeline-resource
+    tag: latest # or 4.2.1
 ```
 
 See [concourse docs](https://concourse-ci.org/resource-types.html) for more details
@@ -68,6 +70,8 @@ resources:
 
   * `password`: Basic auth password for logging in to the team.
     If this and `username` are blank, team must have no authentication configured.
+
+  * `oauth`: Should oAuth support be enabled - you want this for concourse 4.x.
 
 ## `in`: Get the configuration of the pipelines
 
