@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 # Vars
 CONCOURSE_URL=$1
 CONCOURSE_TEAM=$2
@@ -12,12 +14,14 @@ AUTH_ENDPOINT="/sky/login"
 
 # Get fly binary
 TMP_DIR=$(mktemp -d) && trap "rm -rf ${TMP_DIR}" EXIT
-FLY_BIN="/opt/resource/fly"
+export PATH=$PATH:/opt/resource/:/usr/local/bin
+FLY_BIN="fly"
 
-if [ ! -f ${FLY_BIN} ]; then
+if [ ! -x "$(command -v fly)" ]; then
     echo "Fly bin does not exists at $FLY_BIN - fetching new version from ${CONCOURSE_URL}/api/v1/cli?arch=amd64&platform=linux"
-    curl -o "${FLY_BIN}" "${CONCOURSE_URL}/api/v1/cli?arch=amd64&platform=linux"
-    chmod a+x "${FLY_BIN}"
+    mkdir -p /usr/local/bin
+    curl -o "/usr/local/bin/fly" "${CONCOURSE_URL}/api/v1/cli?arch=amd64&platform=linux"
+    chmod a+x "/usr/local/bin/fly"
 fi
 
 EXTRA_PARAMS=""
@@ -27,11 +31,17 @@ if [ "$INSECURE" = "true" ]; then
 fi
 
 COOKIE_FILE="${TMP_DIR}/cookie.txt"
-echo "getting OAuth token"
-AUTH2="$(curl -b ${COOKIE_FILE} -c ${COOKIE_FILE} -s -o /dev/null -L "${CONCOURSE_URL}${AUTH_ENDPOINT}" -D - | \
-    grep "Location: /sky/issuer/auth" | cut -d ' ' -f 2 | tr -d '\r')"
+echo "getting FORM token"
+FORM_TOKEN="$(curl -b ${COOKIE_FILE} -c ${COOKIE_FILE} -s -o /dev/null -L "${CONCOURSE_URL}${AUTH_ENDPOINT}" -D - | \
+    grep -i "Location: /sky/issuer/auth" | cut -d ' ' -f 2 | tr -d '\r')"
+if [ -z "${FORM_TOKEN}" ];then
+  echo "could not retrieve FORM token"
+  exit 1
+fi
+
+echo "getting OAUTH token"
 curl -o /dev/null -s -b ${COOKIE_FILE} -c ${COOKIE_FILE} -L --data-urlencode "login=${CONCOURSE_USER}" \
-    --data-urlencode "password=${CONCOURSE_PASS}" "${CONCOURSE_URL}${AUTH2}"
+    --data-urlencode "password=${CONCOURSE_PASS}" "${CONCOURSE_URL}${FORM_TOKEN}"
 OAUTH_TOKEN=$(cat ${COOKIE_FILE} | grep 'skymarshal_auth' | grep -o 'Bearer .*$' | tr -d '"')
 
 if [ -z "$OAUTH_TOKEN" ];then
@@ -40,5 +50,7 @@ if [ -z "$OAUTH_TOKEN" ];then
 fi
 
 FLYCMD="$FLY_BIN -t ${CONCOURSE_TARGET} login -c ${CONCOURSE_URL} -n ${CONCOURSE_TEAM} $EXTRA_PARAMS"
-echo "fly cmd: '$FLYCMD'"
-echo "${OAUTH_TOKEN}" | ${FLYCMD}
+echo "prepared fly login cmd: '$FLYCMD'"
+echo "Running fly login with OAuth token"
+echo "${OAUTH_TOKEN}" | ${FLYCMD} > /dev/null
+echo "Success"
