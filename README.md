@@ -9,7 +9,7 @@ the `resource_types` section of a pipeline config:
 
 ## Changes to the official resource
 
- - added support for concourse 4.x logging (oAuth, LDAP ..)
+ - added support for concourse 5.x logging (oAuth, LDAP ..)
  - Bundling fly for the respective Concourse version tagged with the image
 
 ## Building your own
@@ -23,7 +23,7 @@ resource_types:
   type: docker-image
   source:
     repository: eugenmayer/concourse-pipeline-resource
-    tag: latest # or 4.2.1
+    tag: latest # or 5.5.1
 ```
 
 See [concourse docs](https://concourse-ci.org/resource-types.html) for more details
