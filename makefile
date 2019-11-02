@@ -1,7 +1,7 @@
 build:
 	./download_fly.sh
 	export DOCKER_BUILDKIT=0
-	docker build -t eugenmayer/concourse-pipeline-resource .
+	source ./version && docker build -t eugenmayer/concourse-pipeline-resource:"$${VERSION}" .
 
 push:
-	docker push eugenmayer/concourse-pipeline-resource
+	source ./version && docker push eugenmayer/concourse-pipeline-resource:"$${VERSION}"
